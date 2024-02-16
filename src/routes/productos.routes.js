@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authRequired } from "../middlewares/validateToke.js";
+import { authRequired, validateUserRole } from "../middlewares/validateToke.js";
 import { getproductos,
     getproducto,
     createproductos,
@@ -14,11 +14,11 @@ router.get('/productos', authRequired, getproductos)
 
 router.get('/productos/:id', authRequired, getproducto)
 
-router.post('/productos', authRequired, validateSchema(createProductoSchema), createproductos)
+router.post('/productos', validateUserRole, validateSchema(createProductoSchema), createproductos)
 
-router.delete('/productos/:id', authRequired, deleteproductos)
+router.delete('/productos/:id', validateUserRole, deleteproductos)
 
-router.put('/productos/:id', authRequired, updateproductos)
+router.put('/productos/:id', validateUserRole, updateproductos)
 
 
 export default router

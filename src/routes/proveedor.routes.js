@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authRequired } from "../middlewares/validateToke.js";
+import { authRequired, validateUserRole } from "../middlewares/validateToke.js";
 import { getproveedores,
     getproveedor,
     createproveedores,
@@ -10,15 +10,15 @@ import { createProveedorSchema } from "../schemas/proveedor.schema.js";
 
 const router = Router()
 
-router.get('/proveedor', authRequired, getproveedores)
+router.get('/proveedor', validateUserRole, getproveedores)
 
-router.get('/proveedor/:id', authRequired, getproveedor)
+router.get('/proveedor/:id', validateUserRole, getproveedor)
 
-router.post('/proveedor', authRequired, validateSchema(createProveedorSchema), createproveedores)
+router.post('/proveedor', validateUserRole, validateSchema(createProveedorSchema), createproveedores)
 
-router.delete('/proveedor/:id', authRequired, deleteproveedores)
+router.delete('/proveedor/:id', validateUserRole, deleteproveedores)
 
-router.put('/proveedor/:id', authRequired, updateproveedores)
+router.put('/proveedor/:id', validateUserRole, updateproveedores)
 
 
 export default router

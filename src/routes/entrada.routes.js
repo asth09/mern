@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authRequired } from "../middlewares/validateToke.js";
+import { authRequired, validateUserRole } from "../middlewares/validateToke.js";
 import { getentradas,
     getentrada,
     createentradas,
@@ -10,15 +10,15 @@ import { createEntradaSchema } from "../schemas/entrada.schema.js";
 
 const router = Router()
 
-router.get('/entradas', authRequired, getentradas)
+router.get('/entradas', validateUserRole, getentradas)
 
-router.get('/entradas/:id', authRequired, getentrada)
+router.get('/entradas/:id', validateUserRole, getentrada)
 
-router.post('/entradas', authRequired, validateSchema(createEntradaSchema), createentradas)
+router.post('/entradas', validateUserRole, validateSchema(createEntradaSchema), createentradas)
 
-router.delete('/entradas/:id', authRequired, deleteentradas)
+router.delete('/entradas/:id', validateUserRole, deleteentradas)
 
-router.put('/entradas/:id', authRequired, updateentradas)
+router.put('/entradas/:id', validateUserRole, updateentradas)
 
 
 export default router
