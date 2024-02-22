@@ -27,6 +27,25 @@ export const getcliente = async(req, res) => {
     res.json(cliente)
 }
 
+export const getClientes = async (req, res) => {
+    /* obtengo y valido 'pagina' de la query */
+    const { pagina } = req.query;
+    if (!pagina) return res.status(400).json({ message: "Parametro 'pagina' es requerido en la query" });
+
+    /* 
+        buscar clientes en la db
+        .skip() busca los documentos desde el numero que se indica en el parentesis
+        .limit() cantidad de documentos que busca
+    */
+    const clientes = await Cliente.find()
+    .skip(pagina * 20)
+    .limit(20)
+
+    if (!clientes) return res.status(500).json({ message: "Error al obtener los clientes" })
+
+    res.json({clientes})
+}
+
 export const updateclientes = async(req, res) => {
     const cliente = await Cliente.findByIdAndUpdate(req.params.id, req.body, {
         new:true,
